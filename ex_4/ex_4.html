@@ -1,0 +1,158 @@
+<html>
+<head> 
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script>
+        /* Random ID Generator */
+        // PS. This realization of generator - just for fun. We can use just ++ which begin from 1, but not today !)
+        function Generator() {};
+        Generator.prototype.rand = Math.floor(Math.random() * 31) + Date.now();
+        Generator.prototype.getId = function () {
+            return this.rand++;
+        };
+        var idGen = new Generator();
+
+        /* Before page loading, create first empty element of list */
+        $('document').ready(function () {
+            addMainControl('body');
+        });
+       
+        /* Add main control to page */
+        function addMainControl(handle) {
+            // handle use for example. if this list not one in page and it can integrate into some other part of page 
+            $(handle).append('<div class="mainControlOfPage">');
+            $('.mainControlOfPage').append('<h2 id="mainControlText"> LIST OF GOODS',
+                                           '<input id="mainControlCheckBox" type="checkbox">',
+                                           '<input id="mainControlTextEdit" type="text">',
+                                           '<button id="mainControlDeleteButton"> Delete Checked',
+                                           '<ul id="mainList">'
+                                          );
+            $('#mainControlText')
+                .css('width', '30em')
+                .css('text-align', 'center')
+                .css('display', 'block');
+            $('#mainControlCheckBox')
+                .css('display', 'inline-block')
+                .click(function () { checkedAllFunc (handle) } );            
+            $('#mainControlTextEdit')
+                .css('width', '40em')
+                .css('display', 'inline-block')
+                .prop('placeholder', "Input name of goods here and press Enter to add to list")
+                .keyup(function (keyEvent) {
+                        textChecker(keyEvent, handle);                
+                });
+            $('#mainControlDeleteButton')
+                .css('width', '10em')
+                .css('display', 'inline-block')
+                .click(function () { 
+                    $('.itemCheckBox:checked').parent().remove();
+                })        
+            $('#mainList')
+                .css('width', '45em')
+                .css('display', 'block')
+                .css('margin-left', '0')   
+                .css('padding-left', '0'); 
+        };
+        
+        /* Checked all items */
+        function checkedAllFunc(handle) {
+            if ( $(handle).find('#mainControlCheckBox').is(':checked')) {
+                $(handle).find('.itemCheckBox').prop('checked',true);
+                $(handle).find('.itemTextEdit')
+                    .css('text-decoration', 'line-through') 
+                    .css('opacity', '0.5')              
+                    .css('filter', 'alpha(Opacity=70)'); 
+            } else {
+                $(handle).find('.itemCheckBox').prop('checked',false);    
+                $(handle).find('.itemTextEdit')
+                    .css('text-decoration', 'none')
+                    .css('opacity', '1')                  
+                    .css('filter', 'alpha(Opacity=100)'); 
+            };              
+        };
+        
+        /* Waiting for keypress "Enter" */
+        function textChecker(keyEvent, handle) {
+            if ((keyEvent.keyCode == 13) && ($(handle).find("#mainControlTextEdit").val() !== '')) {
+                addNewItem(idGen.getId(), handle);                
+            }
+        };
+        
+        /* Add new item to list */
+        function addNewItem(itemId, handle) {
+            var value = '';
+            $(handle).find('#mainList').append('<li id="'+itemId+'">');
+            $('#'+itemId).append('<input class="itemCheckBox" type="checkbox">',
+                                 '<input class="itemTextEdit" type="text" value="'+$(handle).find("#mainControlTextEdit").val()+'" />',
+                                 '<button class="itemDeleteButton"> Delete Item');
+            $(handle).find("#mainControlTextEdit").val('');
+            $('#'+itemId)
+                .css('width', '45em')
+                .css('list-style-type', 'none') 
+                .hover( function(){ $('#'+itemId+' .itemDeleteButton').show(); } , function(){ $('#'+itemId+' .itemDeleteButton').hide(); } )        
+            $('#'+itemId+' .itemCheckBox')
+                .css('display', 'inline-block')
+                .click(function () {checkedFunc(itemId)});
+            $('#'+itemId+' .itemTextEdit')
+                .css('width', '41em')
+                .css('margin-top', '0em')
+                .css('margin-bottom', '0em')        
+                .css('display', 'inline-block')
+                .css('border', '0px solid')
+                .css('outline', 'none')
+                .prop('readonly', true)
+                .dblclick(function () {  
+                                        value = $(handle).find('#'+itemId+' .itemTextEdit').val();
+                                        dblClickforEdit (handle, itemId);  
+                                      })
+                .keyup(function (keyEvent) {                                            
+                                            textEditChecker(keyEvent, handle, itemId, value);
+                });
+            $('#'+itemId+' .itemDeleteButton')
+                .css('width', '8em')
+                .css('display', 'inline-block')
+                .click(function () { 
+                    $(handle).find('#'+itemId).remove();
+                })
+                .hide(); 
+            $("#mainControlCheckBox").prop('checked', ($('.itemCheckBox:checked').length == $('.itemCheckBox').length) ? true : false);
+        };
+        
+        /* li checkbox */
+        function checkedFunc(itemId){
+            if ($('#'+itemId+' .itemCheckBox').is(':checked')) {
+                $('#'+itemId+' .itemTextEdit')
+                    .css('text-decoration', 'line-through') 
+                    .css('opacity', '0.5')               
+                    .css('filter', 'alpha(Opacity=70)'); 
+            } else {
+                $('#'+itemId+' .itemTextEdit')
+                    .css('text-decoration', 'none')
+                    .css('opacity', '1')                 
+                    .css('filter', 'alpha(Opacity=100)');
+            };
+        
+            $("#mainControlCheckBox").prop('checked', ($('.itemCheckBox:checked').length == $('.itemCheckBox').length) ? true : false);
+        };
+        
+        /* Double click mouse for edit value */
+        function dblClickforEdit (handle, itemId){
+            $(handle).find('#'+itemId+' .itemTextEdit').prop('readonly', false).css('border', '1px solid');   
+        };
+        
+        /* Waiting for keypress "Enter" */
+        function textEditChecker(keyEvent, handle, itemId, value) {
+            if ((keyEvent.keyCode == 13) || (keyEvent.keyCode == 27)) {
+                if (keyEvent.keyCode == 13) {
+                    value = $(handle).find('#'+itemId+' .itemTextEdit').val(); 
+                };
+                $(handle).find('#'+itemId+' .itemTextEdit').prop('value', value).prop('readonly', true).css('border', '0px solid');       
+            };
+        };
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html ng-app="ex_9">
+    <head>
+        <title>Ex_9: AngularJS</title>
+    
+        <link href="css/style.css" rel="stylesheet" type="text/css">
+        <script type="text/javascript" src="script/angular.min.js"></script>
+        <script type="text/javascript" src="script/angular-resource.min.js"></script>
+        <script type="text/javascript" src="script/app.js"></script>
+    </head>
+
+    <body>
+        <div id="wrapper">       
+            
+            <div ng-controller="AlbomController">
+                <div id="space-for-big-pic"></div>
+                
+                <p>Выводим каждый $scope.step элемент со списка огранниченного в $scope.quantity элементов, для того что бы увидить разные название альбомов, в каждом альбоме по 50 шт.</p>
+                
+                <addpicturelist></addpicturelist>
+            </div>
+            
+        </div>
+        
+    </body>
+</html>
+
+<!--
+    + Создать список элементов (аватарка [thumbnail] и название альбома). 
+    + Красоты не нужно, но максимально аккуратно. 
+    + Ширина фиксированная пусть будет и весь список располагается по центру.
+    
+    + Данные получить двумя способами: 
+    +    с помощью $http 
+    +    и $resource 
+    + (всю работу с получением данных вынести в фабрику или сервис). 
+    + Для каждого варианта свою. 
+    + Пробросить в контроллер и одну из них использовать (другую я вызову сам).
+    
+    Реализовать директиву, 
+    которая по нажатию на элемент покажет изображение в полном размере 
+    (я вижу это как слой с position:absolute, 
+     затемненным фоном и отцентрованной картинкой по вертикали и горизонтали). 
+    
+    Клик на любом месте закрывает картинку.
+    Использовать ng-click нельзя. 
+    Это должна быть директива в виде аттрибута, 
+    на каждом элементе списка. 
+    Логика внутри - чистый JS без jQuery 
+    (по сути добавить и удалить элемент в DOM). -->

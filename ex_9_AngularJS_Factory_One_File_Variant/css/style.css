@@ -1,0 +1,77 @@
+body {
+    background: #848484;
+}
+
+#wrapper {
+    font-size: 18px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+#li {
+    background: #84c15c;
+    border-radius: 8px;
+    margin: 10px 10px 10px;
+	padding: 0;
+	list-style: none;
+    border: 1px #77f423 solid;
+    border-radius: 8px;
+}
+
+#img {
+    border: 1px #85ea47 solid;
+    border-radius: 8px;
+}
+
+#parent_popup {
+    background-color: rgba(0, 0, 0, 0.8);
+    display: block;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+#popup {
+    background: #fff;
+    width: 600px;
+    height: 600px;
+    margin: 10% auto;
+    /*padding: 5px 20px 13px 20px;*/
+    border: 10px solid #ddd;
+    position: relative;
+    /*--CSS3 CSS3 Тени для Блока--*/
+
+    -webkit-box-shadow: 0px 0px 20px #000;
+    -moz-box-shadow: 0px 0px 20px #000;
+    box-shadow: 0px 0px 20px #000;
+    /*--CSS3 Закругленные углы--*/
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+#big-img {
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;    
+}
+
+#title-big-img {
+    font-size: 30px;
+    text-align: center;
+    top: -100px;
+    position: relative;
+}

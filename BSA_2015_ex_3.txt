@@ -1,0 +1,40 @@
+Написать запрос для поиска всех студентов, у которых score > 93% и меньше 95% по любому из типов выполненных заданий.
+db.BSA_Collectione.find({ 
+	"scores": { 
+		$elemMatch: { 
+			"score": { 
+				$gt: 93, 
+				$lt: 95 
+			} 
+		} 
+	} 
+})
+
+Написать запрос-агрегацию для выборки всех студентов, у которых результат по экзамену (type: "exam") более 90% (использование unwind)
+db.BSA_Collectione.aggregate([
+	{
+		$unwind: '$scores' 
+	},
+	{
+		$match: {
+				"scores.type": "exam",
+				"scores.score": {$gt: 90}
+		}
+	}
+])
+
+Студенту с именем Vinnie Auerbach добавить поле “accepted” со значением true.
+db.BSA_Collectione.update(
+	{ 
+		"name": "Vinnie Auerbach" 
+	}, 
+	{ 
+		$set: { 
+			accepted: true 
+		} 
+	}, 
+	{ 
+		multi: false 
+	} 
+)
+PS. Если поставить multi: true обновятся все записи с "name": "Vinnie Auerbach", а сейчас только первая

@@ -1,0 +1,71 @@
+MongoLab - https://mongolab.com/
+
+Commands:
+	use DATABASENAME
+	db
+	show dbs
+	show collections
+	db.COLLECTIONNAME.count()
+	db.COLLECTIONNAME.insert({name: "TestName", age: 23, interest: ["programming"], friends: []})
+	db.COLLECTIONNAME.find({name: "TestName"})
+	db.COLLECTIONNAME.find({name: "TestName", age: 41}).pretty()
+	db.COLLECTIONNAME.find({age: {$gt: 20}})
+	db.COLLECTIONNAME.find({age: {$gte: 20}})
+	db.COLLECTIONNAME.find({age: {$gte: 20}, name: "TestName"})
+	db.COLLECTIONNAME.findOne({age: {$gte: 20}})
+	db.COLLECTIONNAME.find({age: {$gte: 20}}, {_id: false, name: true})
+	db.COLLECTIONNAME.insert({name: "TestName", age: 23, interest: ["programming"], friends: [], resume: {experience: "2 Years"}})
+	db.COLLECTIONNAME.find({"resume.expierence": "2 Years"}})
+	db.COLLECTIONNAME.find({$or: [{age: {$gt:25}}, {age: {$lt: 36}}]}).limit(3).pretty()
+	$push, $pull, $pushAll, $pullAll, $addToSet
+	db.COLLECTIONNAME.update({name: "TestName"}, {$set: {age: 25}})
+	db.COLLECTIONNAME.update({age: {$gt: 50}}, {$addToSet: {interest: 'programming'}})
+	db.COLLECTIONNAME.remove({name: "Kirill"})
+	db.COLLECTIONNAME.find({name: "TestName"}).explain()
+	db.COLLECTIONNAME.ensureIndex({name: 1})
+	db.COLLECTIONNAME.ensureIndex({name: 1}, {unique: true, dropDups: true})
+	db.COLLECTIONNAME.ensureIndex({name: 1}, {unique: true, sparse: true})
+	db.system.indexes.find()
+	db.COLLECTIONNAME.getIndexes()
+	db.COLLECTIONNAME.stats()
+	db.COLLECTIONNAME.dropIndex({name: 1})
+	mongod.exe --dbpath path --profile 1 -- slowms 1000
+	profile: 0 - turn off
+	         1 - more that 100 ms
+			 2 - log all
+	db.COLLECTIONNAME.aggregate([
+		{
+			$project: {
+				id: "$passport", 
+				interests: true, 
+				full_name: {$concat: ["$name", "-", "$surname"]}
+			}
+		}, 
+		{
+			$match: {
+				age: {$gt: 40}
+			}
+		},  
+		{
+			$sort: {
+				age: 1,
+				id: -1
+			}
+		},
+		{
+			$skip: 5
+		},
+		{
+			$limit: 4
+		},
+		{
+			$group: {
+				_id: "$age",
+				count: {$sum: 1}
+			}
+		},
+		{
+			$unwind: '$interest'
+		}
+	]);
+	

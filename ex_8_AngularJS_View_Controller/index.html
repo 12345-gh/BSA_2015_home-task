@@ -1,0 +1,77 @@
+<!doctype html>
+<html ng-app="ex_8">
+    <head>
+        <title>Ex_8: AngularJS View Controller</title>
+        
+        <!-- Angular JS -->
+        <script type="text/javascript" src="angular.min.js"></script>
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+
+    <body>
+        <div id="wrapper" style="block: block-inline;">
+            <div ng-controller="StoreController" style="display: block; float: left; width: 30%; padding-right: 30px;">
+                <!--Filter for products-->
+                <input type="text" placeholder="seach or press add me" ng-model="filterProducts" />
+                <input type="button" value=">>> Add me <<<" ng-click="addItem(filterProducts)" style="color: green;" />
+                <input type="button" value="{{ showList }}" ng-click="show()" ng-model="visible" style="color: black;" />
+                <hr>
+
+                <!--List of products-->
+                <ul>         
+                    <li ng-repeat="product in filteredProducts = (products | filter: filterProducts) track by $id(product)" ng-show="visible" style="list-style: none;">
+                        Товар: {{ product.name }}; цена: {{ product.price | currency }};
+                        <input type="button" value=">>> Delete me <<<" ng-click="delete($index)" style="color: red;" />
+                    </li>
+                </ul>
+                <hr>
+
+                <!--Count of products-->
+                <p> {{ countProducts(filteredProducts) }} </p>
+            </div>
+
+            <div ng-controller="CustomersController" style="display: block; float: left; width: 60%">
+                <!--Filter for customers-->
+                <input type="text" placeholder="seach or press add me" ng-model="filterCustomersName" />
+                <input type="button" value=">>> Add me <<<" ng-click="addItem(filterCustomersName)" style="color: green;" />
+                <input type="button" value="{{ showList }}" ng-click="show()" ng-model="visible" style="color: black;" />
+                <hr>
+
+                <!--List of customers-->
+                <ul>                                                
+                    <li ng-repeat="customer in filteredCustomers = (customers | filter: {name: filterCustomersName}) track by $id(customer)" ng-show="visible" style="list-style: none;">
+                        <img style="width: 50px; height: 50px;" ng-src="{{customer.avatar[0].full}}" alt="" />
+                        {{customerString(customer)}}
+                        <input type="button" value=">>> Delete me <<<" ng-click="delete($index)" style="color: red;" />
+                    </li>
+                </ul>
+                <hr>
+
+                <!--Count of coustme-->
+                <p> {{ countCustomers(filteredCustomers) }} </p>
+            </div>
+        </div>
+        
+    </body>
+</html>
+
+<!--Создать View, в которой будут два списка:
+  + 1. Просто список товаров с названиями и ценой
+  + 2. Список покупателей (
+  +     каждый элемент можно удалять, 
+  +     должно быть имя, город рождения, возраст, аватар).
+
+  +    В каждый из списков можно добавлять элемент 
+  +     (рандомный возраст, например и цена) 
+  +     [могут быть дубликаты и вылететь ошибка - почитать про track by index].
+    
+  + У обоих списков выведено число входящих в них элементов
+    
+  + Поиск в списке людей происходит по имени и только. 
+  + Поиск в списке товаров происходит по любым параметрам (по всем всмысле)
+    
+  + Есть две кнопки. Каждая отвечает за свой список и позволяет 
+  +    показывать и скрывать его.
+
+  + У списка людей должна быть аватарка (прокинуть url, прочитать про ng-src)
+  + Имена выводить в UPPERCASE c приставкой "Пользователь: " -->
